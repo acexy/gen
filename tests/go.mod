@@ -1,6 +1,6 @@
 module gorm.io/gen/tests
 
-go 1.23.0
+go 1.23.5
 
 toolchain go1.24.3
 

@@ -19,10 +19,15 @@ func TestCreateModel(t *testing.T) {
 
 	g.WithJSONTagNameStrategy(func(c string) string { return str.SnakeToCamel(c) })
 	g.DisableGormTag()
+	g.DisableModelTableNameMethod()
+
 	g.WithTableNameStrategy(func(tableName string) string {
 		return tableName
 	})
-	g.GenerateModelAs("demo_teacher", "Teacher", gen.FieldTypeReg("^(create_time|update_time)$", "gormstarter.Timestamp"))
+	g.GenerateModelAs("demo_teacher", "Teacher",
+		gen.FieldTypeReg("^(create_time|update_time)$", "gormstarter.Timestamp"),
+		gen.FieldTypeReg("^id$", "gormstarter.BaseModel[uint64]"),
+	)
 	//g.GenerateModelAs("demo_student", "Student", gen.FieldTypeReg("^(create_time|update_time)$", "gormstarter.Timestamp"))
 	g.Execute()
 }

@@ -59,7 +59,16 @@ type Config struct {
 
 	modelOpts []ModelOpt
 
-	disableGormTag bool
+	disableGormTag              bool
+	disableModelTableNameMethod bool
+}
+
+func (cfg *Config) DisableGormTag() {
+	cfg.disableGormTag = true
+}
+
+func (cfg *Config) DisableModelTableNameMethod() {
+	cfg.disableModelTableNameMethod = true
 }
 
 // WithOpts set global  model options
@@ -103,10 +112,6 @@ func (cfg *Config) WithDataTypeMap(newMap map[string]func(columnType gorm.Column
 // WithJSONTagNameStrategy specify json tag naming strategy
 func (cfg *Config) WithJSONTagNameStrategy(ns func(columnName string) (tagContent string)) {
 	cfg.fieldJSONTagNS = ns
-}
-
-func (cfg *Config) DisableGormTag() {
-	cfg.disableGormTag = true
 }
 
 // WithImportPkgPath specify import package path
