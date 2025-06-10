@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"testing"
 
-	"gorm.io/gen/tests/.expect/dal_test_relation/model"
-	"gorm.io/gen/tests/.expect/dal_test_relation/query"
+	"github.com/acexy/gen/tests/.expect/dal_test_relation/model"
+	"github.com/acexy/gen/tests/.expect/dal_test_relation/query"
 )
 
 func TestQuery_Transaction_Relation(t *testing.T) {

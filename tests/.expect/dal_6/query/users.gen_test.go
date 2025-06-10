@@ -9,9 +9,9 @@ import (
 	"fmt"
 	"testing"
 
-	"gorm.io/gen"
-	"gorm.io/gen/field"
-	"gorm.io/gen/tests/.gen/dal_6/model"
+	"github.com/acexy/gen"
+	"github.com/acexy/gen/field"
+	"github.com/acexy/gen/tests/.gen/dal_6/model"
 	"gorm.io/gorm/clause"
 )
 

@@ -12,12 +12,12 @@ import (
 	"gorm.io/gorm/clause"
 	"gorm.io/gorm/schema"
 
-	"gorm.io/gen"
-	"gorm.io/gen/field"
+	"github.com/acexy/gen"
+	"github.com/acexy/gen/field"
 
 	"gorm.io/plugin/dbresolver"
 
-	"gorm.io/gen/tests/.gen/dal_6/model"
+	"github.com/acexy/gen/tests/.gen/dal_6/model"
 )
 
 func newUser(db *gorm.DB, opts ...gen.DOOption) user {

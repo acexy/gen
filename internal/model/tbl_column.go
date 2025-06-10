@@ -5,7 +5,7 @@ import (
 	"reflect"
 	"strings"
 
-	"gorm.io/gen/field"
+	"github.com/acexy/gen/field"
 	"gorm.io/gorm"
 )
 

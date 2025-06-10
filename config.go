@@ -9,7 +9,7 @@ import (
 	"gorm.io/gorm"
 	"gorm.io/gorm/utils/tests"
 
-	"gorm.io/gen/internal/model"
+	"github.com/acexy/gen/internal/model"
 )
 
 // GenerateMode generate mode
@@ -58,6 +58,8 @@ type Config struct {
 	fieldJSONTagNS func(columnName string) (tagContent string)
 
 	modelOpts []ModelOpt
+
+	disableGormTag bool
 }
 
 // WithOpts set global  model options
@@ -101,6 +103,10 @@ func (cfg *Config) WithDataTypeMap(newMap map[string]func(columnType gorm.Column
 // WithJSONTagNameStrategy specify json tag naming strategy
 func (cfg *Config) WithJSONTagNameStrategy(ns func(columnName string) (tagContent string)) {
 	cfg.fieldJSONTagNS = ns
+}
+
+func (cfg *Config) DisableGormTag() {
+	cfg.disableGormTag = true
 }
 
 // WithImportPkgPath specify import package path

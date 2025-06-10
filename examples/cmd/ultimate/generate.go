@@ -1,10 +1,10 @@
 package main
 
 import (
-	"gorm.io/gen"
-	"gorm.io/gen/examples/conf"
-	"gorm.io/gen/examples/dal"
-	"gorm.io/gen/examples/dal/model"
+	"github.com/acexy/gen"
+	"github.com/acexy/gen/examples/conf"
+	"github.com/acexy/gen/examples/dal"
+	"github.com/acexy/gen/examples/dal/model"
 	"gorm.io/gorm"
 )
 

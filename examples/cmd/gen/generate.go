@@ -1,9 +1,9 @@
 package main
 
 import (
-	"gorm.io/gen"
-	"gorm.io/gen/examples/conf"
-	"gorm.io/gen/examples/dal"
+	"github.com/acexy/gen"
+	"github.com/acexy/gen/examples/conf"
+	"github.com/acexy/gen/examples/dal"
 )
 
 func init() {

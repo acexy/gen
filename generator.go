@@ -5,6 +5,7 @@ import (
 	"context"
 	"database/sql"
 	"fmt"
+	"github.com/acexy/golang-toolkit/util/coll"
 	"io"
 	"log"
 	"os"
@@ -19,12 +20,12 @@ import (
 	"gorm.io/gorm"
 	"gorm.io/gorm/schema"
 
-	"gorm.io/gen/helper"
-	"gorm.io/gen/internal/generate"
-	"gorm.io/gen/internal/model"
-	"gorm.io/gen/internal/parser"
-	tmpl "gorm.io/gen/internal/template"
-	"gorm.io/gen/internal/utils/pools"
+	"github.com/acexy/gen/helper"
+	"github.com/acexy/gen/internal/generate"
+	"github.com/acexy/gen/internal/model"
+	"github.com/acexy/gen/internal/parser"
+	tmpl "github.com/acexy/gen/internal/template"
+	"github.com/acexy/gen/internal/utils/pools"
 )
 
 // T generic type
@@ -493,6 +494,11 @@ func (g *Generator) generateModelFile() error {
 	for _, data := range g.models {
 		if data == nil || !data.Generated {
 			continue
+		}
+		if g.disableGormTag {
+			coll.SliceForeachAll(data.Fields, func(field *model.Field) {
+				field.GORMTag = nil
+			})
 		}
 		pool.Wait()
 		go func(data *generate.QueryStructMeta) {
