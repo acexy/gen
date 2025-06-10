@@ -1,8 +1,6 @@
 module examples
 
-go 1.23.0
-
-toolchain go1.24.3
+go 1.23.5
 
 require (
 	gorm.io/driver/mysql v1.6.0
