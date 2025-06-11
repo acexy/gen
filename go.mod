@@ -2,8 +2,6 @@ module github.com/acexy/gen
 
 go 1.23.5
 
-toolchain go1.24.3
-
 require (
 	github.com/acexy/golang-toolkit v0.0.48
 	github.com/golang-acexy/starter-gorm v0.1.18
