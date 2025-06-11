@@ -509,7 +509,7 @@ func (g *Generator) generateModelFile() (map[string]string, error) {
 
 	errChan := make(chan error)
 	pool := pools.NewPool(concurrent)
-	var outinfo map[string]string
+	var outInfo = make(map[string]string, len(g.models))
 	var mu sync.Mutex
 	for _, data := range g.models {
 		if data == nil || !data.Generated {
@@ -550,17 +550,17 @@ func (g *Generator) generateModelFile() (map[string]string, error) {
 				return
 			}
 			mu.Lock()
-			outinfo[data.TableName] = modelFile
+			outInfo[data.TableName] = modelFile
 			g.info(fmt.Sprintf("generate model file(table <%s> -> {%s.%s}): %s", data.TableName, data.StructInfo.Package, data.StructInfo.Type, modelFile))
 		}(data)
 	}
 	select {
 	case err = <-errChan:
-		return outinfo, err
+		return outInfo, err
 	case <-pool.AsyncWaitAll():
 		g.fillModelPkgPath(modelOutPath)
 	}
-	return outinfo, nil
+	return outInfo, nil
 }
 
 func (g *Generator) getModelOutputPath() (outPath string, err error) {
