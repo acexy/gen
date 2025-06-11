@@ -14,8 +14,8 @@ func TestCreateModel(t *testing.T) {
 		OutPath: "./testacexy",
 		Mode:    gen.WithDefaultQuery,
 	})
-	gormdb, _ := gorm.Open(mysql.Open("root:root@(127.0.0.1:13306)/test?charset=utf8mb4&parseTime=True&loc=Local"))
-	g.UseDB(gormdb)
+	db, _ := gorm.Open(mysql.Open("root:root@(127.0.0.1:13306)/test?charset=utf8mb4&parseTime=True&loc=Local"))
+	g.UseDB(db)
 
 	g.WithJSONTagNameStrategy(func(c string) string { return str.SnakeToCamel(c) })
 	g.DisableGormTag()
