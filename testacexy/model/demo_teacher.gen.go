@@ -16,3 +16,7 @@ type Teacher struct {
 	Age        int32                         `json:"age"`        // 年龄
 	ClassNo    string                        `json:"classNo"`    // 班级编号
 }
+
+func (Teacher) TableName() string {
+	return TableNameTeacher
+}

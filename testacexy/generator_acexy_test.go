@@ -19,7 +19,7 @@ func TestCreateModel(t *testing.T) {
 
 	g.WithJSONTagNameStrategy(func(c string) string { return str.SnakeToCamel(c) })
 	g.DisableGormTag()
-	g.DisableModelTableNameMethod()
+	//g.DisableModelTableNameMethod()
 
 	g.WithTableNameStrategy(func(tableName string) string {
 		return tableName

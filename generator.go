@@ -534,13 +534,12 @@ func (g *Generator) generateModelFile() (map[string]string, error) {
 				return
 			}
 
-			if !g.disableModelTableNameMethod {
-				for _, method := range data.ModelMethods {
-					err = render(tmpl.ModelMethod, &buf, method)
-					if err != nil {
-						errChan <- err
-						return
-					}
+			for _, method := range data.ModelMethods {
+				method.Doc = ""
+				err = render(tmpl.ModelMethod, &buf, method)
+				if err != nil {
+					errChan <- err
+					return
 				}
 			}
 			modelFile := modelOutPath + data.FileName + ".gen.go"

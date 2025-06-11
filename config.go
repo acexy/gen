@@ -59,16 +59,11 @@ type Config struct {
 
 	modelOpts []ModelOpt
 
-	disableGormTag              bool
-	disableModelTableNameMethod bool
+	disableGormTag bool
 }
 
 func (cfg *Config) DisableGormTag() {
 	cfg.disableGormTag = true
-}
-
-func (cfg *Config) DisableModelTableNameMethod() {
-	cfg.disableModelTableNameMethod = true
 }
 
 // WithOpts set global  model options
