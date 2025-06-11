@@ -13,6 +13,7 @@ import (
 	"runtime"
 	"strconv"
 	"strings"
+	"sync"
 	"text/template"
 
 	"golang.org/x/tools/go/packages"
@@ -275,7 +276,7 @@ func (g *Generator) apply(fc interface{}, structs []*generate.QueryStructMeta) {
 func (g *Generator) Execute() {
 	g.info("Start generating code.")
 
-	if err := g.generateModelFile(); err != nil {
+	if _, err := g.generateModelFile(); err != nil {
 		g.db.Logger.Error(context.Background(), "generate model struct fail: %s", err)
 		panic("generate model struct fail")
 	}
@@ -286,6 +287,23 @@ func (g *Generator) Execute() {
 	}
 
 	g.info("Generate code done.")
+}
+
+func (g *Generator) ExecuteWithOutInfo() (modelInfo map[string]string) {
+	g.info("Start generating code.")
+	var err error
+	if modelInfo, err = g.generateModelFile(); err != nil {
+		g.db.Logger.Error(context.Background(), "generate model struct fail: %s", err)
+		panic("generate model struct fail")
+	}
+
+	if err := g.generateQueryFile(); err != nil {
+		g.db.Logger.Error(context.Background(), "generate query code fail: %s", err)
+		panic("generate query code fail")
+	}
+
+	g.info("Generate code done.")
+	return
 }
 
 // info logger
@@ -475,22 +493,24 @@ func (g *Generator) generateQueryUnitTestFile(data *genInfo) (err error) {
 }
 
 // generateModelFile generate model structures and save to file
-func (g *Generator) generateModelFile() error {
+func (g *Generator) generateModelFile() (map[string]string, error) {
 	if len(g.models) == 0 {
-		return nil
+		return nil, nil
 	}
 
 	modelOutPath, err := g.getModelOutputPath()
 	if err != nil {
-		return err
+		return nil, err
 	}
 
 	if err = os.MkdirAll(modelOutPath, os.ModePerm); err != nil {
-		return fmt.Errorf("create model pkg path(%s) fail: %s", modelOutPath, err)
+		return nil, fmt.Errorf("create model pkg path(%s) fail: %s", modelOutPath, err)
 	}
 
 	errChan := make(chan error)
 	pool := pools.NewPool(concurrent)
+	var outinfo map[string]string
+	var mu sync.Mutex
 	for _, data := range g.models {
 		if data == nil || !data.Generated {
 			continue
@@ -502,7 +522,10 @@ func (g *Generator) generateModelFile() error {
 		}
 		pool.Wait()
 		go func(data *generate.QueryStructMeta) {
-			defer pool.Done()
+			defer func() {
+				pool.Done()
+				mu.Unlock()
+			}()
 
 			var buf bytes.Buffer
 			err := render(tmpl.Model, &buf, data)
@@ -526,17 +549,18 @@ func (g *Generator) generateModelFile() error {
 				errChan <- err
 				return
 			}
-
+			mu.Lock()
+			outinfo[data.TableName] = modelFile
 			g.info(fmt.Sprintf("generate model file(table <%s> -> {%s.%s}): %s", data.TableName, data.StructInfo.Package, data.StructInfo.Type, modelFile))
 		}(data)
 	}
 	select {
 	case err = <-errChan:
-		return err
+		return outinfo, err
 	case <-pool.AsyncWaitAll():
 		g.fillModelPkgPath(modelOutPath)
 	}
-	return nil
+	return outinfo, nil
 }
 
 func (g *Generator) getModelOutputPath() (outPath string, err error) {
