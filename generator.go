@@ -493,8 +493,8 @@ func (g *Generator) generateQueryUnitTestFile(data *genInfo) (err error) {
 }
 
 type QueryGenResult struct {
-	Path map[string]string
-	Meta map[string]*generate.QueryStructMeta
+	Path map[string]string                    // structName - filepath
+	Meta map[string]*generate.QueryStructMeta // structName - meta
 }
 
 // generateModelFile generate model structures and save to file
@@ -559,7 +559,7 @@ func (g *Generator) generateModelFile() (*QueryGenResult, error) {
 				return
 			}
 			mu.Lock()
-			pathInfo[data.TableName] = modelFile
+			pathInfo[data.ModelStructName] = modelFile
 			g.info(fmt.Sprintf("generate model file(table <%s> -> {%s.%s}): %s", data.TableName, data.StructInfo.Package, data.StructInfo.Type, modelFile))
 		}(data)
 	}
