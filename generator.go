@@ -289,10 +289,10 @@ func (g *Generator) Execute() {
 	g.info("Generate code done.")
 }
 
-func (g *Generator) ExecuteWithOutInfo() (modelInfo map[string]string) {
+func (g *Generator) ExecuteWithOutInfo() (queryGenResult *QueryGenResult) {
 	g.info("Start generating code.")
 	var err error
-	if modelInfo, err = g.generateModelFile(); err != nil {
+	if queryGenResult, err = g.generateModelFile(); err != nil {
 		g.db.Logger.Error(context.Background(), "generate model struct fail: %s", err)
 		panic("generate model struct fail")
 	}
@@ -492,8 +492,13 @@ func (g *Generator) generateQueryUnitTestFile(data *genInfo) (err error) {
 	return g.output(fmt.Sprintf("%s%s%s.gen_test.go", g.OutPath, string(os.PathSeparator), data.FileName), buf.Bytes())
 }
 
+type QueryGenResult struct {
+	Path map[string]string
+	Meta map[string]*generate.QueryStructMeta
+}
+
 // generateModelFile generate model structures and save to file
-func (g *Generator) generateModelFile() (map[string]string, error) {
+func (g *Generator) generateModelFile() (*QueryGenResult, error) {
 	if len(g.models) == 0 {
 		return nil, nil
 	}
@@ -509,7 +514,12 @@ func (g *Generator) generateModelFile() (map[string]string, error) {
 
 	errChan := make(chan error)
 	pool := pools.NewPool(concurrent)
-	var outInfo = make(map[string]string, len(g.models))
+	var pathInfo = make(map[string]string, len(g.models))
+	genResult := &QueryGenResult{
+		Meta: g.models,
+		Path: pathInfo,
+	}
+
 	var mu sync.Mutex
 	for _, data := range g.models {
 		if data == nil || !data.Generated {
@@ -549,17 +559,17 @@ func (g *Generator) generateModelFile() (map[string]string, error) {
 				return
 			}
 			mu.Lock()
-			outInfo[data.TableName] = modelFile
+			pathInfo[data.TableName] = modelFile
 			g.info(fmt.Sprintf("generate model file(table <%s> -> {%s.%s}): %s", data.TableName, data.StructInfo.Package, data.StructInfo.Type, modelFile))
 		}(data)
 	}
 	select {
 	case err = <-errChan:
-		return outInfo, err
+		return genResult, err
 	case <-pool.AsyncWaitAll():
 		g.fillModelPkgPath(modelOutPath)
 	}
-	return outInfo, nil
+	return genResult, nil
 }
 
 func (g *Generator) getModelOutputPath() (outPath string, err error) {
