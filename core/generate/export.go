@@ -3,6 +3,8 @@ package generate
 import (
 	"context"
 	"fmt"
+	"github.com/acexy/gen/core/model"
+	"github.com/acexy/gen/core/parser"
 	"reflect"
 	"strings"
 
@@ -12,8 +14,6 @@ import (
 
 	"github.com/acexy/gen/field"
 	"github.com/acexy/gen/helper"
-	"github.com/acexy/gen/internal/model"
-	"github.com/acexy/gen/internal/parser"
 )
 
 // GetQueryStructMeta generate db model by table name

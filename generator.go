@@ -21,12 +21,12 @@ import (
 	"gorm.io/gorm"
 	"gorm.io/gorm/schema"
 
+	"github.com/acexy/gen/core/generate"
+	"github.com/acexy/gen/core/model"
+	"github.com/acexy/gen/core/parser"
+	tmpl "github.com/acexy/gen/core/template"
+	"github.com/acexy/gen/core/utils/pools"
 	"github.com/acexy/gen/helper"
-	"github.com/acexy/gen/internal/generate"
-	"github.com/acexy/gen/internal/model"
-	"github.com/acexy/gen/internal/parser"
-	tmpl "github.com/acexy/gen/internal/template"
-	"github.com/acexy/gen/internal/utils/pools"
 )
 
 // T generic type

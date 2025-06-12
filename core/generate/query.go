@@ -3,6 +3,8 @@ package generate
 import (
 	"context"
 	"fmt"
+	"github.com/acexy/gen/core/model"
+	"github.com/acexy/gen/core/parser"
 	"reflect"
 	"strings"
 
@@ -10,8 +12,6 @@ import (
 	"gorm.io/gorm/schema"
 
 	"github.com/acexy/gen/field"
-	"github.com/acexy/gen/internal/model"
-	"github.com/acexy/gen/internal/parser"
 )
 
 type FieldParser interface {

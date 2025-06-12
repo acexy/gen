@@ -2,10 +2,9 @@ package generate
 
 import (
 	"fmt"
+	"github.com/acexy/gen/core/parser"
 	"strconv"
 	"strings"
-
-	"github.com/acexy/gen/internal/parser"
 )
 
 // GetTestParamInTmpl return param list

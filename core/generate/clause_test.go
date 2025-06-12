@@ -1,9 +1,8 @@
 package generate
 
 import (
+	"github.com/acexy/gen/core/parser"
 	"testing"
-
-	"github.com/acexy/gen/internal/parser"
 )
 
 func checkBuildExpr(t *testing.T, SQL string, splitResult, generateResult []string, i *InterfaceMethod) {

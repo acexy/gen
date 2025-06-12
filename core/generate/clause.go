@@ -2,9 +2,8 @@ package generate
 
 import (
 	"fmt"
+	"github.com/acexy/gen/core/model"
 	"strings"
-
-	"github.com/acexy/gen/internal/model"
 )
 
 // Clause a symbol of clause, it can be sql condition clause, if clause, where clause, set clause and else clause

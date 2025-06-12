@@ -9,7 +9,7 @@ import (
 	"gorm.io/gorm"
 	"gorm.io/gorm/utils/tests"
 
-	"github.com/acexy/gen/internal/model"
+	"github.com/acexy/gen/core/model"
 )
 
 // GenerateMode generate mode

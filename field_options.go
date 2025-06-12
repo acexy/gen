@@ -2,13 +2,13 @@ package gen
 
 import (
 	"fmt"
+	"github.com/acexy/gen/core/generate"
+	"github.com/acexy/gen/core/model"
 	"reflect"
 	"regexp"
 	"strings"
 
 	"github.com/acexy/gen/field"
-	"github.com/acexy/gen/internal/generate"
-	"github.com/acexy/gen/internal/model"
 	"gorm.io/gorm/schema"
 )
 

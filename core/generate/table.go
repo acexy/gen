@@ -3,10 +3,9 @@ package generate
 import (
 	"context"
 	"errors"
+	"github.com/acexy/gen/core/model"
 
 	"gorm.io/gorm"
-
-	"github.com/acexy/gen/internal/model"
 )
 
 // ITableInfo table info interface

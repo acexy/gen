@@ -2,13 +2,12 @@ package generate
 
 import (
 	"fmt"
+	"github.com/acexy/gen/core/model"
 	"regexp"
 	"strings"
 
 	"gorm.io/gorm"
 	"gorm.io/gorm/schema"
-
-	"github.com/acexy/gen/internal/model"
 )
 
 /*

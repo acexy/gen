@@ -2,11 +2,10 @@ package generate
 
 import (
 	"fmt"
+	"github.com/acexy/gen/core/model"
+	"github.com/acexy/gen/core/parser"
 	"strconv"
 	"strings"
-
-	"github.com/acexy/gen/internal/model"
-	"github.com/acexy/gen/internal/parser"
 )
 
 // InterfaceMethod interface's method

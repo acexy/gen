@@ -2,10 +2,9 @@ package generate
 
 import (
 	"fmt"
+	"github.com/acexy/gen/core/model"
 	"strconv"
 	"strings"
-
-	"github.com/acexy/gen/internal/model"
 )
 
 // NewSection create and initialize Sections
