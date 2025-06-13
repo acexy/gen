@@ -525,11 +525,25 @@ func (g *Generator) generateModelFile() (*QueryGenResult, error) {
 		if data == nil || !data.Generated {
 			continue
 		}
-		if g.disableGormTag {
+		if g.disableDefaultGormTag {
 			coll.SliceForeachAll(data.Fields, func(field *model.Field) {
 				field.GORMTag = nil
 			})
 		}
+		coll.SliceForeachAll(data.Fields, func(field *model.Field) {
+			if len(g.bindGromTag) > 0 {
+				tags := g.bindGromTag[field.Name]
+				if len(tags) > 0 {
+					coll.MapForeachAll(tags, func(k string, v []string) {
+						if field.GORMTag == nil {
+							field.GORMTag = make(map[string][]string)
+						}
+						field.GORMTag[k] = v
+					})
+				}
+
+			}
+		})
 		pool.Wait()
 		go func(data *generate.QueryStructMeta) {
 			defer func() {

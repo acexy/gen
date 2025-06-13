@@ -59,11 +59,16 @@ type Config struct {
 
 	modelOpts []ModelOpt
 
-	disableGormTag bool
+	disableDefaultGormTag bool                           // 关闭gorm tag生成
+	bindGromTag           map[string]map[string][]string // 强制设置的gorm tag
 }
 
-func (cfg *Config) DisableGormTag() {
-	cfg.disableGormTag = true
+func (cfg *Config) DisableDefaultGormTag() {
+	cfg.disableDefaultGormTag = true
+}
+
+func (cfg *Config) MustBindGormTag(tag map[string]map[string][]string) {
+	cfg.bindGromTag = tag
 }
 
 // WithOpts set global  model options
