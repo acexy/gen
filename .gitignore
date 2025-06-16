@@ -32,7 +32,6 @@ _testmain.go
 /.idea
 /.vscode
 __debug_bin
-/test/
 **/go.work
 **/go.work.sum
 

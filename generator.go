@@ -6,6 +6,7 @@ import (
 	"database/sql"
 	"fmt"
 	"github.com/acexy/golang-toolkit/util/coll"
+	"github.com/acexy/golang-toolkit/util/str"
 	"io"
 	"log"
 	"os"
@@ -566,7 +567,7 @@ func (g *Generator) generateModelFile() (*QueryGenResult, error) {
 					return
 				}
 			}
-			modelFile := modelOutPath + data.FileName + ".gen.go"
+			modelFile := modelOutPath + str.CamelToSnake(str.LowFirstChar(data.ModelStructName)) + "_gen.go"
 			err = g.output(modelFile, buf.Bytes())
 			if err != nil {
 				errChan <- err
