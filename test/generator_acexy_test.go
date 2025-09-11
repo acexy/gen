@@ -11,8 +11,9 @@ import (
 func TestCreateModel(t *testing.T) {
 
 	g := gen.NewGenerator(gen.Config{
-		OutPath: "./testacexy",
-		Mode:    gen.WithDefaultQuery,
+		OutPath:      "./testacexy",
+		Mode:         gen.WithDefaultQuery,
+		ModelPkgPath: "model1",
 	})
 	db, _ := gorm.Open(mysql.Open("root:root@(127.0.0.1:13306)/test?charset=utf8mb4&parseTime=True&loc=Local"))
 
