@@ -5,8 +5,6 @@ import (
 	"context"
 	"database/sql"
 	"fmt"
-	"github.com/acexy/golang-toolkit/util/coll"
-	"github.com/acexy/golang-toolkit/util/str"
 	"io"
 	"log"
 	"os"
@@ -16,6 +14,9 @@ import (
 	"strings"
 	"sync"
 	"text/template"
+
+	"github.com/acexy/golang-toolkit/util/coll"
+	"github.com/acexy/golang-toolkit/util/str"
 
 	"golang.org/x/tools/go/packages"
 	"golang.org/x/tools/imports"
@@ -527,15 +528,15 @@ func (g *Generator) generateModelFile() (*QueryGenResult, error) {
 			continue
 		}
 		if g.disableDefaultGormTag {
-			coll.SliceForeachAll(data.Fields, func(field *model.Field) {
+			coll.SliceForEachAll(data.Fields, func(field *model.Field) {
 				field.GORMTag = nil
 			})
 		}
-		coll.SliceForeachAll(data.Fields, func(field *model.Field) {
+		coll.SliceForEachAll(data.Fields, func(field *model.Field) {
 			if len(g.bindGromTag) > 0 {
 				tags := g.bindGromTag[field.Name]
 				if len(tags) > 0 {
-					coll.MapForeachAll(tags, func(k string, v []string) {
+					coll.MapForEachAll(tags, func(k string, v []string) {
 						if field.GORMTag == nil {
 							field.GORMTag = make(map[string][]string)
 						}
